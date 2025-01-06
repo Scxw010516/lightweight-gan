@@ -14,7 +14,7 @@
 
 [![PyPI version](https://badge.fury.io/py/lightweight-gan.svg)](https://badge.fury.io/py/lightweight-gan)
 
-Implementation of <a href="https://openreview.net/forum?id=1Fqg133qRaI">'lightweight' GAN</a> proposed in ICLR 2021, in Pytorch. The main contributions of the paper is a skip-layer excitation in the generator, paired with autoencoding self-supervised learning in the discriminator. Quoting the one-line summary "converge on single gpu with few hours' training, on 1024 resolution sub-hundred images".
+2021在ICLR中提出的“轻量级”GAN(Pytorch版)。本文的主要贡献是生成器中的跳跃层激励，以及鉴别器中的自动编码自监督学习。引用一行总结“在1024张分辨率低于100张的图像上，通过几个小时的训练，在单个gpu上收敛”。
 
 ## Install
 
@@ -24,17 +24,17 @@ $ pip install lightweight-gan
 
 ## Use
 
-One command
+一行命令
 
 ```bash
 $ lightweight_gan --data ./path/to/images --image-size 512
 ```
 
-Model will be saved to `./models/{name}` every 1000 iterations, and samples from the model saved to `./results/{name}`. `name` will be `default`, by default.
+每1000次迭代，模型将保存到“.models｛name｝”，模型中的样本保存到“.results｛name}”。默认情况下，“name”将为“default”。
 
-## Training settings
+## Training settings训练设置
 
-Pretty self explanatory for deep learning practitioners
+对于深度学习从业者来说，这是不言自明的
 
 ```bash
 $ lightweight_gan \
@@ -45,25 +45,25 @@ $ lightweight_gan \
     --num-train-steps 200000
 ```
 
-## Augmentation
+## Augmentation增强
 
-Augmentation is essential for Lightweight GAN to work effectively in a low data setting
+增强对于轻量级GAN在低数据环境中有效工作至关重要
 
-By default, the augmentation types is set to translation and cutout, with color omitted. You can include color as well with the following.
+默认情况下，增强类型设置为平移和剪切，并省略颜色。您也可以将颜色包含在以下内容中。
 
 ```bash
 $ lightweight_gan --data ./path/to/images --aug-prob 0.25 --aug-types [translation,cutout,color]
 ```
 
-### Test augmentation
+### Test augmentation测试增强
 
-You can test and see how your images will be augmented before it pass into a neural network (if you use augmentation). Let's see how it works on this image:
+你可以在图像进入神经网络之前测试并查看图像将如何增强（如果你使用增强）。让我们看看它是如何处理此图像的：
 
 ![](./docs/aug_test/lena.jpg)
 
-#### Basic usage
+#### Basic usage基本使用
 
-Base code to augment your image, define `--aug-test` and put path to your image into `--data`:
+增强图像、定义`--aug test`并将图像路径放入`--data`的基本代码：
 
 ```bash
 lightweight_gan \
@@ -71,20 +71,20 @@ lightweight_gan \
     --data ./path/to/lena.jpg
 ```
 
-After this will be created the file lena_augs.jpg that will be look something like this:
+创建后，文件lena_augs.jpg将如下所示：
 
 ![](./docs/aug_test/lena_augs_default.jpg)
 
 
-#### Options
+#### Options选项
 
-You can use some options to change result:
-- `--image-size 256` to change size of image tiles in the result. Default: `256`.
-- `--aug-type [color,cutout,translation]` to combine several augmentations. Default: `[cutout,translation]`.
-- `--batch-size 10` to change count of images in the result image. Default: `10`.
-- `--num-image-tiles 5` to change count of tiles in the result image. Default: `5`.
+您可以使用一些选项来更改结果：
+- `--image-size 256` 改变`image-size`. 默认: `256`.
+- `--aug-type [color,cutout,translation]` 组合几个增强功能. 默认: `[cutout,translation]`.
+- `--batch-size 10` 更改`batch-size`. 默认: `10`.
+- `--num-image-tiles 5` 更改`num-image-tiles`. 默认: `5`.
 
-Try this command:
+尝试此命令：
 ```bash
 lightweight_gan \
     --aug-test \
@@ -94,24 +94,25 @@ lightweight_gan \
     --aug-types [color,translation]
 ```
 
-result wil be something like that:
+结果会是这样的：
 
 ![](./docs/aug_test/lena_augs.jpg)
 
-### Types of augmentations
+### Types of augmentations扩增类型
 
-This library contains several types of embedded augmentations.  
-Some of these works by default, some of these can be controlled from  a command as options in the `--aug-types`:
-- Horizontal flip (work by default, not under control, runs in the AugWrapper class);
-- `color` randomly change brightness, saturation and contrast;
-- `cutout` creates random black boxes on the image; 
-- `offset` randomly moves image by x and y-axis with repeating image;
+这个库包含几种类型的嵌入式扩充.  
+
+其中一些默认情况下有效，其中一些可以通过命令`--aug-types`的选项进行控制:
+- 水平翻转（默认情况下工作，不受控制，在AugWrapper类中运行）;
+- `color` 随机改变亮度、饱和度和对比度;
+- `cutout` 在图像上创建随机的黑框; 
+- `offset` 使用重复图像按x轴和y轴随机移动图像;
   - `offset_h` only by an x-axis;
   - `offset_v` only by a y-axis;
-- `translation` randomly moves image on the canvas with black background;
+- `translation` 在画布上随机移动黑色背景的图像;
 
-Full setup of augmentations is `--aug-types [color,cutout,offset,translation]`.  
-General recommendation is using suitable augs for your data and as many as possible, then after sometime of training disable most destructive (for image) augs.
+增强功能的完整设置 `--aug-types [color,cutout,offset,translation]`.  
+一般建议为您的数据使用合适的aug，并尽可能多地使用，然后在训练一段时间后禁用最具破坏性的（图像）aug。
 
 #### Color
 
@@ -137,51 +138,48 @@ Only y-axis:
 
 ![](./docs/aug_types/lena_augs_translation.jpg)
 
-## Mixed precision
+## Mixed precision混合精度
 
-You can turn on automatic mixed precision with one flag `--amp`
+你可以用`--amp`打开自动混合精度
 
-You should expect it to be 33% faster and save up to 40% memory
+你应该期望它能快33%，并节省高达40%的内存
 
-## Multiple GPUs
+## Multiple GPUs多GPUs
 
-Also one flag to use `--multi-gpus`
+设置项`--multi-gpus`
 
+## Visualizing training insights with Aim使用Aim可视化训练
 
-## Visualizing training insights with Aim
-
-[Aim](https://github.com/aimhubio/aim) is an open-source experiment tracker that logs your training runs, enables a beautiful UI to compare them and an API to query them programmatically.
-
-First you need to install `aim` with `pip`
+[Aim](https://github.com/aimhubio/aim) 是一个开源的实验跟踪器，它记录你的训练运行，使用一个漂亮的UI来比较它们，并使用一个API以编程方式查询它们。
 
 ```bash
 $ pip install aim
 ```
 
-Next, you can specify Aim logs directory with `--aim_repo` flag, otherwise logs will be stored in the current directory
+接下来，您可以使用`--Aim_repo`标志指定Aim日志目录，否则日志将存储在当前目录中
 
 ```bash
 $ lightweight_gan --data ./path/to/images --image-size 512 --use-aim --aim_repo ./path/to/logs/
 ```
 
-Execute `aim up --repo ./path/to/logs/` to run Aim UI on your server.
+执行`aim up --repo ./path/to/logs/`在服务器上运行Aim UI。
 
-**View all tracked runs, each metric last tracked values and tracked hyperparameters in Runs Dashboard:**
+**在仪表板中查看所有追踪的运行、每个指标在上次追踪的值和追踪的超参数:**
 
 <img width="1431" alt="Screen Shot 2022-04-19 at 00 48 55" src="https://user-images.githubusercontent.com/11066664/163875698-dc497334-1f77-4e18-a37e-ac0f874b9814.png">
 
 
-**Compare loss curves with Metrics Explorer - group and aggregate by any hyperparameter to easily compare the runs:**
+**使用Metrics Explorer比较损失曲线-通过任何超参数分组和聚合，轻松比较运行情况:**
 
 <img width="1440" alt="Screen Shot 2022-04-12 at 16 56 35" src="https://user-images.githubusercontent.com/11066664/163875452-1da3bf36-f3bc-449f-906e-cebaf9a4fd6c.png">
 
-**Compare and debug generated images across training steps and runs via Images Explorer:**
+**跨训练步骤比较和调试生成的图像，并通过图像资源管理器运行:**
 
 <img width="1439" alt="Screen Shot 2022-04-12 at 16 57 24" src="https://user-images.githubusercontent.com/11066664/163875815-9cd8ce85-2815-4f0a-80dd-0f3258193c19.png">
 
-## Generating
+## Generating生成
 
-Once you have finished training, you can generate samples with one command. You can select which checkpoint number to load from. If `--load-from` is not specified, will default to the latest.
+完成训练后，可以使用一个命令生成样本。您可以选择要从中加载的检查点编号。如果未指定`--load-from`，则默认为最新版本。
 
 ```bash
 $ lightweight_gan \
@@ -192,17 +190,17 @@ $ lightweight_gan \
   --num-image-tiles {count of image result}
 ```
 
-After run this command you will get folder near results image folder with postfix "-generated-{checkpoint num}".
+运行此命令后，您将获得结果图像文件夹附近的文件夹，该文件夹带有后缀"-generated-{checkpoint num}"。
 
-You can also generate interpolations
+也可以生成插值
 
 ```bash
 $ lightweight_gan --name {name of run} --generate-interpolation
 ```
 
-## Show progress
+## Show progress显示进度
 
-After creating several checkpoints of model you can generate progress as sequence images by command:
+在创建了几个模型检查点后，您可以通过命令将进度生成为序列图像：
 
 ```bash
 $ lightweight_gan \
@@ -212,59 +210,63 @@ $ lightweight_gan \
   --num-image-tiles {count of image result}
 ```
 
-After running this command you will get a new folder in the results folder, with postfix "-progress". You can convert the images to a video with ffmpeg using the command "ffmpeg -framerate 10 -pattern_type glob -i '*-ema.jpg' out.mp4".
+运行此命令后，您将在results文件夹中获得一个新文件夹，后缀为“-progress”。您可以使用命令`ffmpeg -framerate 10 -pattern_type glob -i '*-ema.jpg' out.mp4`"`将图像转换为带有ffmpeg的视频。
 
 ![Show progress gif demonstration](./docs/show_progress/show-progress.gif)
 
 ![Show progress video demonstration](./docs/show_progress/show-progress.mp4)
 
-## Discriminator output size
+## Discriminator output size鉴别器输出大小
 
-The author has kindly let me know that the discriminator output size (5x5 vs 1x1) leads to different results on different datasets. (5x5 works better for art than for faces, as an example). You can toggle this with a single flag
+作者好心地告诉我，鉴别器输出大小（5x5 vs 1x1）在不同的数据集上会导致不同的结果。（举个例子，5x5对艺术比对人脸更有效）。您可以使用单个标志进行切换
 
 ```bash
 # disc output size is by default 1x1
 $ lightweight_gan --data ./path/to/art --image-size 512 --disc-output-size 5
 ```
 
-## Attention
+## Attention注意
 
-You can add linear + axial attention to specific resolution layers with the following
+您可以使用以下方法将线性+轴向注意力添加到特定分辨率的图层
 
 ```bash
 # make sure there are no spaces between the values within the brackets []
 $ lightweight_gan --data ./path/to/images --image-size 512 --attn-res-layers [32,64] --aug-prob 0.25
 ```
 
-## Dual Contrastive Loss
+## Dual Contrastive Loss双重对比度损失
 
 A recent paper has proposed that a novel contrastive loss between the real and fake logits can improve quality slightly over the default hinge loss.
 
 You can use this with one extra flag as follows
 
+最近的一篇论文提出，真实和虚假logits之间的新的对比损失可以比默认的铰链损失稍微提高质量。
+
+您可以将其与一个额外的标志一起使用，如下所示
+
 ```bash
 $ lightweight_gan --data ./path/to/images --dual-contrast-loss
 ```
 
-## Bonus
+## Bonus额外
 
-You can also train with transparent images
+您也可以使用透明图像进行训练
 
 ```bash
 $ lightweight_gan --data ./path/to/images --transparent
 ```
 
-Or greyscale
+或灰度
 
 ```bash
 $ lightweight_gan --data ./path/to/images --greyscale
 ```
 
-## Alternatives
+## Alternatives选择
 
-If you want the current state of the art GAN, you can find it at https://github.com/lucidrains/stylegan2-pytorch
+如果你想要最新的art GAN，你可以在 https://github.com/lucidrains/stylegan2-pytorch
 
-## Citations
+## Citations引用
 
 ```bibtex
 @inproceedings{
@@ -321,4 +323,3 @@ If you want the current state of the art GAN, you can find it at https://github.
 }
 ```
 
-*What I cannot create, I do not understand* - Richard Feynman

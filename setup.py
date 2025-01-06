@@ -2,7 +2,7 @@ import sys
 from setuptools import setup, find_packages
 
 sys.path[0:0] = ['lightweight_gan']
-from version import __version__
+from lightweight_gan.version import __version__
 
 setup(
   name = 'lightweight-gan',

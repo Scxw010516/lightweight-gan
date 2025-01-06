@@ -1658,3 +1658,5 @@ class Trainer():
             return None
 
         return saved_nums
+
+# lightweight_gan --name generate_2 --load-from 27 --generate --num-image-tiles 2048
